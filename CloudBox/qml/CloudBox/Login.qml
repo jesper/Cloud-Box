@@ -24,10 +24,10 @@ Rectangle {
     {
         id:email
         anchors.horizontalCenter: parent.horizontalCenter
-        y: (parent.height/4) * 3
+        y: (parent.height/8) * 5
         width: parent.width - 20
         height: parent.height/11
-        text: "john@doe.com"
+        text: "example@company.com"
     }
 
     UserInput
@@ -41,8 +41,16 @@ Rectangle {
         text: "********"
     }
 
+    Button
+    {
+        height: parent.height/11
+        width: parent.width - 20
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: password.y + password.height + 6
+    }
+
     Text {
-        y: parent.height - height - 3
+        y: parent.height - height - 10
         anchors.horizontalCenter: parent.horizontalCenter
         style: Text.Raised
         styleColor: "black"

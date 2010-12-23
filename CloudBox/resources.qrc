@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/box.svg</file>
+        <file>images/login.svg</file>
     </qresource>
 </RCC>

@@ -7,5 +7,8 @@ A simple Dropbox client that should run anywhere, but aimed primarily at mobile 
 
 Depends on Qt and QML.
 
-box.svg is a modified version of a public domain work courtesy of "molumen, Jack123 / molumen":
+box.svg is a modified version of work by "molumen, Jack123 / molumen":
 http://www.openclipart.org/detail/1509
+
+login.svg is by "warszawianka":
+http://www.openclipart.org/detail/30667

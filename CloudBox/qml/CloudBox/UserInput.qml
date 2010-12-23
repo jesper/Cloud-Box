@@ -5,7 +5,7 @@ Rectangle {
     property alias text : text.text
     property alias echoMode : input.echoMode
     border.color: "black"
-    border.width: 2
+    border.width: 1
     gradient: Gradient {
         GradientStop { position: 0.0; color: "white" }
         GradientStop { position: 1.0; color: "lightsteelblue" }
@@ -26,6 +26,7 @@ Rectangle {
     TextInput {
         id: input
         x: 5
+        color: "#304C53"
         anchors.centerIn: parent
         width: parent.width - (container.height/3)
         font.pixelSize: text.font.pixelSize
