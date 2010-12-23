@@ -1,0 +1,10 @@
+kqoauth is not associated with the Cloud Box project, but meerly a dependency included for convenience.
+
+For more information about kqoauth, please visit:
+http://gitorious.org/kqoauth
+
+
+
+I've included kqoauth to simplify packaging CloudBox + to have a predictable code base to work from.
+
+Also, I suck at using qmake, so I've made some slight modifications (not suitable for upstream) and included them here as a patch.

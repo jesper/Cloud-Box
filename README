@@ -1,0 +1,11 @@
+Copyright 2010 Jesper Thomschutz, jesper@jespersaur.com
+
+Cloud Box is currently under heavy construction and wont be ready for anything any time soon.
+Contact jesperht on freenode for enquiries.
+
+A simple Dropbox client that should run anywhere, but aimed primarily at mobile platforms, such as Symbian, Maemo, and MeeGo.
+
+Depends on Qt and QML.
+
+box.svg is a modified version of a public domain work courtesy of "molumen, Jack123 / molumen":
+http://www.openclipart.org/detail/1509

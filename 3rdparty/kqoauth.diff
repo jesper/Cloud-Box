@@ -1,0 +1,23 @@
+diff --git a/kqoauth.pro b/kqoauth.pro
+index 66c8a18..447cf5c 100644
+--- a/kqoauth.pro
++++ b/kqoauth.pro
+@@ -1,6 +1,6 @@
+ TEMPLATE = subdirs
+ 
+-SUBDIRS += src examples tests
++SUBDIRS += src
+ 
+ CONFIG += ordered
+ 
+diff --git a/src/src.pro b/src/src.pro
+index 485ebb2..e3ac8cd 100644
+--- a/src/src.pro
++++ b/src/src.pro
+@@ -1,5 +1,5 @@
+ TARGET = kqoauth
+-DESTDIR = ../lib
++DESTDIR = ../../../CloudBox/
+ win32:DLLDESTDIR = $${DESTDIR}
+ 
+ VERSION = 0.93

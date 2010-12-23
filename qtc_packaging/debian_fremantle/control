@@ -1,0 +1,13 @@
+Source: cloudbox
+Section: user/hidden
+Priority: optional
+Maintainer: Jesper Thomschutz <jesper@jespersaur.com>
+Build-Depends: debhelper (>= 5), libqt4-dev
+Standards-Version: 3.7.3
+Homepage: http://www.github.com/jesper/Cloud-Box
+
+Package: cloudbox
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A Dropbox client.
+ A simple Dropbox client aimed primarily at mobile platforms, such as Symbian, Maemo, and MeeGo.
