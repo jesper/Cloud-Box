@@ -10,6 +10,7 @@ Rectangle {
     }
 
     Image {
+        id: logo
         source: "qrc:/images/box.svg"
         anchors.horizontalCenter: parent.horizontalCenter
         y: parent.height/10
@@ -20,6 +21,24 @@ Rectangle {
         fillMode: Image.PreserveAspectFit
     }
 
+    Text {
+        y: logo.y + logo.height + 10
+        anchors.horizontalCenter: parent.horizontalCenter
+        style: Text.Raised
+        styleColor: "black"
+        color: "white"
+
+        text: "Take your Dropbox <i>with you!</i>"
+        font.pixelSize: parent.width/15
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                Helper.openDropboxPage();
+            }
+        }
+    }
+
     UserInput
     {
         id:email
@@ -28,6 +47,8 @@ Rectangle {
         width: parent.width - 20
         height: parent.height/11
         text: "example@company.com"
+        KeyNavigation.tab: password.input
+        KeyNavigation.backtab: password.input
     }
 
     UserInput
@@ -39,6 +60,9 @@ Rectangle {
         height: parent.height/11
         echoMode: TextInput.Password
         text: "********"
+
+        KeyNavigation.tab: email.input
+        KeyNavigation.backtab: email.input
     }
 
     Button

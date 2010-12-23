@@ -4,6 +4,8 @@ Rectangle {
     id: container
     property alias text : text.text
     property alias echoMode : input.echoMode
+    property alias input : input
+
     border.color: "black"
     border.width: 1
     gradient: Gradient {

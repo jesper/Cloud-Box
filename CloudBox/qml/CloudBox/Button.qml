@@ -28,4 +28,22 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         x: button.width - width - 5
     }
+
+
+    MouseArea {
+        id:mouse
+        anchors.fill: parent
+    }
+
+    states: [
+        State {
+            name: "Pressed"
+            when: mouse.pressed == true
+            PropertyChanges { target: button; scale: 1.1 }
+        }
+    ]
+    transitions: Transition {
+        NumberAnimation { properties: "scale"; duration: 100; easing.type: Easing.InOutQuad }
+    }
+
 }
