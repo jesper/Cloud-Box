@@ -41,4 +41,22 @@ Rectangle {
         text: "********"
     }
 
+    Text {
+        y: parent.height - height - 3
+        anchors.horizontalCenter: parent.horizontalCenter
+        style: Text.Raised
+        styleColor: "black"
+        color: "white"
+
+        text: "Dont have Dropbox? <u>Click here.</u>"
+        font.pixelSize: parent.height/40
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                Helper.openDropboxPage();
+            }
+        }
+    }
+
 }

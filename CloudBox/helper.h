@@ -2,6 +2,8 @@
 #define HELPER_H
 
 #include <QDesktopWidget>
+#include <QUrl>
+#include <QDesktopServices>
 #include <QApplication>
 
 class Helper : public QObject
@@ -35,6 +37,10 @@ public slots:
 #else
         return 640;
 #endif
+    };
+
+    void openDropboxPage() {
+        QDesktopServices::openUrl(QUrl("https://www.dropbox.com/"));
     };
 
     void quit() { exit(0); };
