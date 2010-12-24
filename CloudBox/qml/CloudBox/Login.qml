@@ -84,6 +84,12 @@ Rectangle {
 
         KeyNavigation.tab: loginButton
         KeyNavigation.backtab: email.input
+
+        Keys.onPressed: {
+            if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return) {
+                loginButton.state = "pressed";
+            }
+        }
     }
 
     Button
