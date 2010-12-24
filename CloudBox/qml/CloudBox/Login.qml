@@ -36,7 +36,7 @@ Rectangle {
         {
             anchors.fill: parent
             onClicked: {
-                Clouds.start();
+                Clouds.spawnCloud();
             }
         }
     }
@@ -69,7 +69,7 @@ Rectangle {
         height: parent.height/11
         text: "example@company.com"
         KeyNavigation.tab: password.input
-        KeyNavigation.backtab: password.input
+        KeyNavigation.backtab: loginButton
     }
 
     UserInput
@@ -82,16 +82,20 @@ Rectangle {
         echoMode: TextInput.Password
         text: "********"
 
-        KeyNavigation.tab: email.input
+        KeyNavigation.tab: loginButton
         KeyNavigation.backtab: email.input
     }
 
     Button
     {
+        id:loginButton
         height: parent.height/11
         width: parent.width - 20
         anchors.horizontalCenter: parent.horizontalCenter
         y: password.y + password.height + 6
+
+        KeyNavigation.tab: email.input
+        KeyNavigation.backtab: password.input
     }
 
     Text {

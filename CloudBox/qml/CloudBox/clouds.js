@@ -1,16 +1,8 @@
 var componentCloud = Qt.createComponent("Cloud.qml");
 
-
-
-function start()
-{
-    console.log("Trying to spawn a cloud");
-    spawnCloud()
-}
-
 function spawnRandomCloud()
 {
-    spawnCloudAt(Math.floor(Math.random() * loginWindow.width))
+    spawnCloudAt(Math.floor(Math.random() * loginWindow.width)-100)
 }
 
 function spawnCloud()

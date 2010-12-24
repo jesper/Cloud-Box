@@ -29,6 +29,18 @@ Rectangle {
         x: button.width - width - 5
     }
 
+    Keys.onPressed: {
+        if (event.key == Qt.Key_Enter || event.key == Qt.Key_Return || event.key == Qt.Key_Space) {
+            state = "pressed"
+        }
+    }
+
+    onFocusChanged: {
+        if (focus)
+            border.width = 3
+        else
+            border.width = 2
+    }
 
     MouseArea {
         id:mouse
