@@ -33,17 +33,24 @@ Rectangle {
     MouseArea {
         id:mouse
         anchors.fill: parent
+        onClicked: {
+            parent.state = "pressed";
+        }
     }
 
     states: [
         State {
-            name: "Pressed"
-            when: mouse.pressed == true
-            PropertyChanges { target: button; scale: 1.1 }
+            name: "pressed"
+            PropertyChanges { target: button; scale: 1.05 }
         }
     ]
     transitions: Transition {
-        NumberAnimation { properties: "scale"; duration: 100; easing.type: Easing.InOutQuad }
+        SequentialAnimation {
+            NumberAnimation { properties: "scale"; duration: 100; easing.type: Easing.InOutQuad }
+            ScriptAction {
+                script: button.state = ""
+            }
+        }
     }
 
 }

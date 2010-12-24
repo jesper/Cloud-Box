@@ -1,4 +1,5 @@
 import Qt 4.7
+import "clouds.js" as Clouds
 
 Rectangle {
     id: loginWindow
@@ -9,8 +10,14 @@ Rectangle {
         GradientStop { position: 1.0; color: "#00509C" }
     }
 
+    Timer {
+        interval: 3500; running: true; repeat: true
+        onTriggered: Clouds.spawnCloud();
+    }
+
     Image {
         id: logo
+        z: 1
         source: "qrc:/images/box.svg"
         anchors.horizontalCenter: parent.horizontalCenter
         y: parent.height/10
@@ -19,9 +26,23 @@ Rectangle {
         width: sourceSize.width
         height: sourceSize.height
         fillMode: Image.PreserveAspectFit
+
+        onStatusChanged: {
+            //TBD fix the speed of these clouds - way too slow since they get a headstart.
+            script: Clouds.spawnRandomCloud();
+        }
+
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: {
+                Clouds.start();
+            }
+        }
     }
 
     Text {
+        z: 1
         y: logo.y + logo.height + 10
         anchors.horizontalCenter: parent.horizontalCenter
         style: Text.Raised
