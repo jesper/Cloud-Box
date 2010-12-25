@@ -48,7 +48,6 @@ bool DropboxNetwork::isNetworkingAvailable()
 
 bool DropboxNetwork::hasValidKeys()
 {
-    qDebug() << "Asking for valid Keys";
     if (!isNetworkingAvailable())
         return false;
 

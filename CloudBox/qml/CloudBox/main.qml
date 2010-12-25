@@ -10,4 +10,10 @@ Item {
         visible: !Dropbox.hasValidKeys();
     }
 
+    Text {
+        z: loginWindow.z - 1
+        text: "Filler Logged In"
+        font.pixelSize: 50
+    }
+
 }
