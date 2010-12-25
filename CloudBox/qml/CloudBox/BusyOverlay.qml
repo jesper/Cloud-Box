@@ -4,6 +4,12 @@ Rectangle {
     id: background
     anchors.fill: parent
 
+    onVisibleChanged:
+    {
+        if (visible)
+            focus = true
+    }
+
     color: "transparent"
     Rectangle {
         anchors.fill:  parent
@@ -14,6 +20,9 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        onClicked: {
+            background.visible = false;
+        }
     }
 
     Image {

@@ -30,19 +30,23 @@ DropboxNetwork::DropboxNetwork()
 
 bool DropboxNetwork::isNetworkingAvailable()
 {
-    if (m_networkConfigurationManager->isOnline())
-        reportErrorMessage("Network Connectivity: Not Online");
-
     if (!m_networkSession->isOpen())
         m_networkSession->open();
 
-    if (m_networkSession->waitForOpened(30000))
-        return true;
-    else
+    if (!m_networkSession->waitForOpened(30000))
     {
         reportErrorMessage("Network Connectivity: " + m_networkSession->errorString());
         return false;
     }
+
+    if (!((m_networkSession->state() != QNetworkSession::Connected) || (m_networkSession->state() != QNetworkSession::Roaming)))
+    {
+        reportErrorMessage("Network Connectivity: Could not connect, state: " + m_networkSession->state());
+        return false;
+    }
+
+    return true;
+
 }
 
 
