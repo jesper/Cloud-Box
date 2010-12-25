@@ -1,10 +1,11 @@
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
+#include <QEventLoop>
+#include <QDebug>
 
 #include "qmlapplicationviewer.h"
 #include "helper.h"
 #include "dropboxnetwork.h"
-#include <QEventLoop>
 
 int main(int argc, char *argv[])
 {
@@ -13,25 +14,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("CloudBox");
 
     Helper helper;
-
-
-    /*
-
-    // For testing the Dropbox network until the GUI is up to speed...
     DropboxNetwork dropbox;
-
-    while (dropbox.isBusy())
-        app.processEvents(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
-
-    dropbox.accountInfo();
-    viewer.rootContext()->setContextProperty("Dropbox", &dropbox);
-
-*/
 
     QmlApplicationViewer viewer;
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
     viewer.rootContext()->setContextProperty("Helper", &helper);
-
+    viewer.rootContext()->setContextProperty("Dropbox", &dropbox);
 
     viewer.setMainQmlFile(QLatin1String("qml/CloudBox/main.qml"));
 

@@ -6,6 +6,8 @@ Item {
     height: Helper.getScreenHeight();
 
     Login {
+        id: loginWindow
+        visible: !Dropbox.hasValidKeys();
     }
 
 }

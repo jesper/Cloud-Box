@@ -3,7 +3,7 @@
 #include "json.h"
 
 Json::Json(QObject *parent) :
-    QScriptEngine(parent), m_error(false)
+    QScriptEngine(parent), m_error(false), m_errorString("")
 {
 }
 
@@ -15,6 +15,7 @@ QVariantMap Json::parse(QString json)
 
     if (hasUncaughtException()) {
         qDebug() << "JSon uncaught exception at line" << uncaughtExceptionLineNumber() << ":" << m_sc.toString();
+        m_errorString = uncaughtExceptionLineNumber() + ":" + m_sc.toString();
         m_error = true;
         return QVariantMap();
     }
@@ -22,7 +23,12 @@ QVariantMap Json::parse(QString json)
     return m_sc.toVariant().toMap();
 }
 
-bool Json::error()
+QString Json::getErrorString()
+{
+    return m_errorString;
+}
+
+bool Json::errorExists()
 {
     return m_error;
 }

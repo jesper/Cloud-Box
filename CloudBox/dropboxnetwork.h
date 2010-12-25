@@ -6,6 +6,10 @@
 #include <QtKOAuth>
 #include <QStringList>
 #include <QSettings>
+#include <QNetworkSession>
+#include <QNetworkConfigurationManager>
+#include <QNetworkConfiguration>
+
 
 #include "json.h"
 
@@ -18,18 +22,25 @@ public:
     void listFiles(QString path);
     void accountInfo();
     bool isBusy();
+    bool keysWork();
+
+public slots:
+    bool hasValidKeys();
 
 private slots:
     void handleAccountInfo(QByteArray);
     void handleListFiles(QByteArray);
-
     void networkFinished(QNetworkReply *networkReply);
 
 private:
-    bool hasValidKeys();
+    bool isNetworkingAvailable();
+    void busyWait();
     void getKeys();
     void recyleOauth();
+    void reportErrorMessage(const QString error);
 
+    QNetworkConfigurationManager *m_networkConfigurationManager;
+    QNetworkSession *m_networkSession;
     QNetworkAccessManager *m_networkManager;
     KQOAuthManager *m_oauthManager;
     KQOAuthRequest *m_oauthRequest;

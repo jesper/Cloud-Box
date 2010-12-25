@@ -9,10 +9,12 @@ class Json : public QScriptEngine
 public:
     explicit Json(QObject *parent = 0);
     QVariantMap parse(QString json);
-    bool error();
+    bool errorExists();
+    QString getErrorString();
 
 private:
     bool m_error;
+    QString m_errorString;
     QScriptValue m_sc;
 };
 

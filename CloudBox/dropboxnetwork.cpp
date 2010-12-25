@@ -12,6 +12,11 @@
 DropboxNetwork::DropboxNetwork()
 {
     m_busy = false;
+    m_networkConfigurationManager = new QNetworkConfigurationManager(this);
+    //Seems this is needed for symbian to initiate an initial network scan.
+    m_networkConfigurationManager->isOnline();
+
+    m_networkSession = new QNetworkSession(m_networkConfigurationManager->defaultConfiguration(), this);
     m_oauthManager = new KQOAuthManager(this);
     m_json = new Json(this);
     m_oauthRequest = new KQOAuthRequest(this);
@@ -19,21 +24,73 @@ DropboxNetwork::DropboxNetwork()
     m_networkManager = new QNetworkAccessManager(this);
     connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(networkFinished(QNetworkReply *)));
 
-    if (!hasValidKeys())
-        getKeys();
-
     m_token = m_settings.value("token").toString();
     m_secret = m_settings.value("secret").toString();
 }
 
+bool DropboxNetwork::isNetworkingAvailable()
+{
+    if (m_networkConfigurationManager->isOnline())
+        reportErrorMessage("Network Connectivity: Not Online");
+
+    if (!m_networkSession->isOpen())
+        m_networkSession->open();
+
+    if (m_networkSession->waitForOpened(30000))
+        return true;
+    else
+    {
+        reportErrorMessage("Network Connectivity: " + m_networkSession->errorString());
+        return false;
+    }
+}
+
+
 bool DropboxNetwork::hasValidKeys()
 {
+    qDebug() << "Asking for valid Keys";
+    if (!isNetworkingAvailable())
+        return false;
+
     //TBD Check that they actually work as well!
-    return !(m_settings.value("token").toString().isEmpty() || m_settings.value("secret").toString().isEmpty());
+    if (m_settings.value("token").toString().isEmpty() || m_settings.value("secret").toString().isEmpty())
+        return false;
+
+    return keysWork();
+}
+
+void DropboxNetwork::busyWait()
+{
+    while (isBusy())
+    {
+        qDebug() << "Spinning";
+        QCoreApplication::instance()->processEvents(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
+    }
+}
+
+bool DropboxNetwork::keysWork()
+{
+    if (!isNetworkingAvailable())
+        return false;
+
+    accountInfo();
+
+    busyWait();
+
+    if (m_oauthManager->lastError() != KQOAuthManager::NoError)
+    {
+        reportErrorMessage("Dropbox Authentication Error:" + m_oauthManager->lastError());
+        return false;
+    }
+    else
+        return true;
 }
 
 void DropboxNetwork::getKeys()
 {
+    if (!isNetworkingAvailable())
+        return;
+
     m_busy = true;
 
     QString url = QString("https://api.dropbox.com/0/token?email=%1&password=%2&oauth_consumer_key=%3") \
@@ -42,39 +99,29 @@ void DropboxNetwork::getKeys()
     m_networkManager->get(QNetworkRequest(QUrl(url)));
 }
 
+void DropboxNetwork::reportErrorMessage(const QString error)
+{
+    qDebug() << "Error in " + error;
+    m_busy  = false;
+}
+
 void DropboxNetwork::networkFinished(QNetworkReply *networkReply)
 {
     //TBD alert user incase of errors below
 
     if (networkReply->error() != 0)
-    {
-        qDebug("Some error occured in replyFinished in regards to networkReply");
-        return;
-    }
+        return reportErrorMessage("Network Connection: " + networkReply->errorString());
 
     QVariantMap response = m_json->parse(networkReply->readAll());
 
-    if (m_json->error())
-    {
-        qDebug("JSON response was invalid");
-        return;
-    }
+    if (m_json->errorExists())
+        return reportErrorMessage("Network JSON: " + m_json->getErrorString());
 
-    if (!response["token"].toString().isEmpty())
-        qDebug() << "!Token:" << response["token"].toString();
-    else
-    {
-        qDebug() << "Token invalid";
-        return;
-    }
+    if (response["token"].toString().isEmpty())
+        return reportErrorMessage("Dropbox Authentication: Temp Token Invalid.");
 
     if (!response["secret"].toString().isEmpty())
-        qDebug() << "!Secret:" << response["secret"].toString();
-    else
-    {
-        qDebug() << "Secret invalid";
-        return;
-    }
+        return reportErrorMessage("Dropbox Authentication: Temp Secret Invalid.");
 
     m_settings.setValue("token", response["token"].toString());
     m_settings.setValue("secret", response["secret"].toString());
