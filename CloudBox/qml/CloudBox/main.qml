@@ -16,4 +16,10 @@ Item {
         font.pixelSize: 50
     }
 
+    BusyOverlay
+    {
+        id:busyOverlay
+        visible: false
+    }
+
 }

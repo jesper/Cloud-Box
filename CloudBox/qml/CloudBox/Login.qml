@@ -102,6 +102,11 @@ Rectangle {
 
         KeyNavigation.tab: email.input
         KeyNavigation.backtab: password.input
+
+        onStateChanged: {
+            if (state == "pressed")
+                busyOverlay.visible = true
+        }
     }
 
     Text {
