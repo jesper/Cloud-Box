@@ -26,6 +26,7 @@ public:
 
 public slots:
     bool hasValidKeys();
+    void oauthNetworkFinished(QNetworkReply *networkReply);
 
 private slots:
     void handleAccountInfo(QByteArray);
@@ -42,6 +43,8 @@ private:
     QNetworkConfigurationManager *m_networkConfigurationManager;
     QNetworkSession *m_networkSession;
     QNetworkAccessManager *m_networkManager;
+    QNetworkAccessManager *m_oauthNetworkManager;
+
     KQOAuthManager *m_oauthManager;
     KQOAuthRequest *m_oauthRequest;
     Json *m_json;

@@ -11,7 +11,6 @@
 
 DropboxNetwork::DropboxNetwork()
 {
-    m_busy = false;
     m_networkConfigurationManager = new QNetworkConfigurationManager(this);
     //Seems this is needed for symbian to initiate an initial network scan.
     m_networkConfigurationManager->isOnline();
@@ -20,12 +19,26 @@ DropboxNetwork::DropboxNetwork()
     m_oauthManager = new KQOAuthManager(this);
     m_json = new Json(this);
     m_oauthRequest = new KQOAuthRequest(this);
-
     m_networkManager = new QNetworkAccessManager(this);
-    connect(m_networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(networkFinished(QNetworkReply *)));
+    m_oauthNetworkManager = new QNetworkAccessManager(this);
+    m_oauthManager->setNetworkManager(m_oauthNetworkManager);
 
     m_token = m_settings.value("token").toString();
     m_secret = m_settings.value("secret").toString();
+
+    m_busy = false;
+
+    connect(m_networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(networkFinished(QNetworkReply *)));
+    connect(m_oauthNetworkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(oauthNetworkFinished(QNetworkReply *)));
+}
+
+void DropboxNetwork::oauthNetworkFinished(QNetworkReply *networkReply)
+{
+    if (networkReply->error() == QNetworkReply::NoError)
+        return;
+
+    reportErrorMessage("Authentication Network Error: " + networkReply->errorString());
+    m_busy = false;
 }
 
 bool DropboxNetwork::isNetworkingAvailable()
@@ -82,7 +95,7 @@ bool DropboxNetwork::keysWork()
 
     if (m_oauthManager->lastError() != KQOAuthManager::NoError)
     {
-        reportErrorMessage("Dropbox Authentication Error:" + m_oauthManager->lastError());
+        reportErrorMessage("Dropbox Authentication Error: Could Not Connect");
         return false;
     }
     else
@@ -112,7 +125,7 @@ void DropboxNetwork::networkFinished(QNetworkReply *networkReply)
 {
     //TBD alert user incase of errors below
 
-    if (networkReply->error() != 0)
+    if (networkReply->error() != QNetworkReply::NoError)
         return reportErrorMessage("Network Connection: " + networkReply->errorString());
 
     QVariantMap response = m_json->parse(networkReply->readAll());
@@ -142,6 +155,7 @@ void DropboxNetwork::recyleOauth()
 
     delete m_oauthManager;
     m_oauthManager = new KQOAuthManager(this);
+    m_oauthManager->setNetworkManager(m_oauthNetworkManager);
 }
 
 void DropboxNetwork::accountInfo()
