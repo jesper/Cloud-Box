@@ -28,8 +28,8 @@ Rectangle {
     Image {
         source: "qrc:/images/cloud.svg"
         anchors.centerIn: parent
-        sourceSize.width: parent.width - parent.width/3
-        sourceSize.height: parent.width - parent.width/3
+        sourceSize.width: parent.width - parent.width/2
+        sourceSize.height: parent.width - parent.width/2
         width: sourceSize.width
         height: sourceSize.height
 

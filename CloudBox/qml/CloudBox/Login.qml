@@ -21,8 +21,8 @@ Rectangle {
         source: "qrc:/images/box.svg"
         anchors.horizontalCenter: parent.horizontalCenter
         y: parent.height/10
-        sourceSize.width: parent.width - 100
-        sourceSize.height: parent.width - 100
+        sourceSize.width: parent.width - parent.width/3
+        sourceSize.height: parent.width - parent.width/3
         width: sourceSize.width
         height: sourceSize.height
         fillMode: Image.PreserveAspectFit
