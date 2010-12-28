@@ -9,7 +9,8 @@
 #include "json.h"
 #include "assets.h"
 
-DropboxNetwork::DropboxNetwork()
+DropboxNetwork::DropboxNetwork(QDeclarativeContext *declarativeContext)
+    : m_declarativeContext(declarativeContext)
 {
     m_networkConfigurationManager = new QNetworkConfigurationManager(this);
     //Seems this is needed for symbian to initiate an initial network scan.
@@ -22,6 +23,10 @@ DropboxNetwork::DropboxNetwork()
     m_networkManager = new QNetworkAccessManager(this);
     m_oauthNetworkManager = new QNetworkAccessManager(this);
     m_oauthManager->setNetworkManager(m_oauthNetworkManager);
+    m_fileListModel = new QStandardItemModel(this);
+    m_fileListModel->appendRow(new QStandardItem("Foo"));
+
+    m_declarativeContext->setContextProperty("FileListModel", m_fileListModel);
 
     m_token = m_settings.value("token").toString();
     m_secret = m_settings.value("secret").toString();

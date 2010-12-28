@@ -58,7 +58,7 @@ Rectangle {
     ]
     transitions: Transition {
         SequentialAnimation {
-            NumberAnimation { properties: "scale"; duration: 100; easing.type: Easing.InOutQuad }
+            NumberAnimation { properties: "scale"; duration: 200; easing.type: Easing.InOutQuad }
             ScriptAction {
                 script: button.state = ""
             }

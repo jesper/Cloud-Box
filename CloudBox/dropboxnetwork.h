@@ -1,6 +1,8 @@
 #ifndef DROPBOXNETWORK_H
 #define DROPBOXNETWORK_H
 
+#include <QStandardItemModel>
+#include <QDeclarativeContext>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QtKOAuth>
@@ -18,7 +20,7 @@ class DropboxNetwork : public QObject
     Q_OBJECT
 
 public:
-    DropboxNetwork();
+    DropboxNetwork(QDeclarativeContext *declarativeContext);
     void listFiles(QString path);
     void accountInfo();
     bool isBusy();
@@ -40,11 +42,12 @@ private:
     void recyleOauth();
     void reportErrorMessage(const QString error);
 
+    QStandardItemModel *m_fileListModel;
     QNetworkConfigurationManager *m_networkConfigurationManager;
     QNetworkSession *m_networkSession;
     QNetworkAccessManager *m_networkManager;
     QNetworkAccessManager *m_oauthNetworkManager;
-
+    QDeclarativeContext *m_declarativeContext;
     KQOAuthManager *m_oauthManager;
     KQOAuthRequest *m_oauthRequest;
     Json *m_json;

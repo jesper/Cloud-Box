@@ -4,11 +4,7 @@ import "clouds.js" as Clouds
 Rectangle {
     id: loginWindow
     anchors.fill:  parent
-
-    gradient: Gradient {
-        GradientStop { position: 0.0; color: "#83A7C4" }
-        GradientStop { position: 1.0; color: "#00509C" }
-    }
+    color: "transparent"
 
     Timer {
         interval: 3500; running: true; repeat: true
