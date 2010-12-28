@@ -73,9 +73,12 @@ bool DropboxNetwork::hasValidKeys()
     if (!isNetworkingAvailable())
         return false;
 
-    //TBD Check that they actually work as well!
     if (m_settings.value("token").toString().isEmpty() || m_settings.value("secret").toString().isEmpty())
+    {
+
+    //    reportErrorMessage("Dropbox Authentication Error: Could not find user token/secret");
         return false;
+    }
 
     return keysWork();
 }
@@ -202,5 +205,7 @@ bool DropboxNetwork::isBusy()
 
 void DropboxNetwork::handleListFiles(QByteArray response) {
     qDebug() << "\nList files response:" << response;
+
+
     m_busy = false;
 }

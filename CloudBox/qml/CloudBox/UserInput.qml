@@ -19,6 +19,7 @@ Rectangle {
     Text {
         id: text
         color: "#6E7678"
+        font.family: "Helvetica"
         font.pixelSize: (container.height) - (container.height/2)
         x: 5
         opacity:.5
@@ -29,6 +30,7 @@ Rectangle {
         id: input
         x: 5
         color: "#304C53"
+        font.family: "Helvetica"
         anchors.centerIn: parent
         width: parent.width - (container.height/3)
         font.pixelSize: text.font.pixelSize

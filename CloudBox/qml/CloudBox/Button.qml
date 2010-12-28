@@ -19,6 +19,8 @@ Rectangle {
         text: "Login"
         font.pixelSize: (button.height) - (button.height/2)
         anchors.centerIn: parent
+        font.family: "Helvetica"
+        font.bold: true
         x: 5
     }
 

@@ -47,6 +47,7 @@ Rectangle {
 
         text: "Take your Dropbox <i>with you!</i>"
         font.pixelSize: parent.width/15
+        font.family: "Helvetica"
 
         MouseArea {
             anchors.fill: parent
@@ -114,6 +115,8 @@ Rectangle {
 
         text: "Dont have Dropbox? <u>Click here.</u>"
         font.pixelSize: parent.height/40
+        font.family: "Helvetica"
+
 
         MouseArea {
             anchors.fill: parent

@@ -25,6 +25,7 @@ Rectangle {
         id:fileListDelegate
         Text {
             color: "red"
+            font.family: "Helvetica"
             id: fileName
             text: display
         }

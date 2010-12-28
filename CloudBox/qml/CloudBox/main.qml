@@ -21,6 +21,7 @@ Rectangle {
         id:filler
         anchors.fill: parent
         color:"transparent"
+        //visible: false
 
         Text {
             id:fillerText
