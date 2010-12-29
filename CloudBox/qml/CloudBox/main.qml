@@ -14,14 +14,20 @@ Rectangle {
     Login {
         id: loginWindow
         //  visible: !Dropbox.hasValidKeys();
+        //visible: false
+    }
+
+    AccountInfo {
+        anchors.fill: parent
         visible: false
+
     }
 
     Rectangle {
         id:filler
         anchors.fill: parent
         color:"transparent"
-        //visible: false
+        visible: false
 
         Text {
             id:fillerText

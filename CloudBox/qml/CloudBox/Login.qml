@@ -37,17 +37,13 @@ Rectangle {
         }
     }
 
-    Text {
+    StyledText {
         z: 1
         y: logo.y + logo.height + 10
         anchors.horizontalCenter: parent.horizontalCenter
-        style: Text.Raised
-        styleColor: "black"
-        color: "white"
 
         text: "Take your Dropbox <i>with you!</i>"
         font.pixelSize: parent.width/15
-        font.family: "Helvetica"
 
         MouseArea {
             anchors.fill: parent
@@ -106,16 +102,12 @@ Rectangle {
         }
     }
 
-    Text {
+    StyledText {
         y: parent.height - height - 10
         anchors.horizontalCenter: parent.horizontalCenter
-        style: Text.Raised
-        styleColor: "black"
-        color: "white"
 
         text: "Dont have Dropbox? <u>Click here.</u>"
         font.pixelSize: parent.height/40
-        font.family: "Helvetica"
 
 
         MouseArea {
