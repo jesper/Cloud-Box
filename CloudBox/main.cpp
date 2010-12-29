@@ -17,13 +17,13 @@ int main(int argc, char *argv[])
     QmlApplicationViewer viewer;
     Helper helper;
     DropboxNetwork dropbox(viewer.rootContext());
+    dropbox.accountInfo();
 
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
     viewer.rootContext()->setContextProperty("Helper", &helper);
     viewer.rootContext()->setContextProperty("Dropbox", &dropbox);
     viewer.setMainQmlFile(QLatin1String("qml/CloudBox/main.qml"));
 
-    dropbox.accountInfo();
 
 #ifdef Q_OS_SYMBIAN
     viewer.showFullScreen();

@@ -1,21 +1,16 @@
 import Qt 4.7
 
-Row {
+Column {
+    id:info
     spacing: 10
 
-    Column {
-        spacing: 10
-        StyledText {
-            text: "Name"
-        }
-        Rectangle { color: "green"; width: 20; height: 50 }
-        Rectangle { color: "blue"; width: 20; height: 50 }
+    StyledText {
+        text: Dropbox.getAccountName()
+        font.pixelSize: parent.width/15
     }
 
-    Column {
-        spacing: 10
-        Rectangle { color: "red"; width: 20; height: 50 }
-        Rectangle { color: "green"; width: 20; height: 50 }
-        Rectangle { color: "blue"; width: 20; height: 50 }
+    StyledText {
+        text: Dropbox.getAccountEmail()
+        font.pixelSize: parent.width/15
     }
 }

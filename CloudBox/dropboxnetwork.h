@@ -27,6 +27,8 @@ public:
     bool keysWork();
 
 public slots:
+    QString getAccountName();
+    QString getAccountEmail();
     bool hasValidKeys();
     void oauthNetworkFinished(QNetworkReply *networkReply);
 
@@ -55,6 +57,8 @@ private:
     QString m_token;
     QString m_secret;
     bool m_busy;
+    QString m_accountName;
+    QString m_accountEmail;
 };
 
 #endif // DROPBOXNETWORK_H

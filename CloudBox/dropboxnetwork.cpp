@@ -218,6 +218,17 @@ void DropboxNetwork::handleAccountInfo(QByteArray response)
     if (json["quota_info"].toMap()["normal"].toString().isEmpty())
         return reportErrorMessage("Dropbox Account Info: quota_normal is invalid.");
 
+    m_accountName = json["display_name"].toString();
+    m_accountEmail = json["email"].toString();
+}
+
+QString DropboxNetwork::getAccountName() {
+    return m_accountName;
+}
+
+
+QString DropboxNetwork::getAccountEmail() {
+    return m_accountEmail;
 }
 
 bool DropboxNetwork::isBusy()
