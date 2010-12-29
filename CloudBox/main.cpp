@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("Dropbox", &dropbox);
     viewer.setMainQmlFile(QLatin1String("qml/CloudBox/main.qml"));
 
-    dropbox.listFiles("");
+    dropbox.accountInfo();
 
 #ifdef Q_OS_SYMBIAN
     viewer.showFullScreen();
