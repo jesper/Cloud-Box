@@ -192,6 +192,8 @@ void DropboxNetwork::listFiles(QString path)
     m_oauthRequest->setToken(m_token);
     m_oauthRequest->setTokenSecret(m_secret);
     m_oauthManager->executeRequest(m_oauthRequest);
+
+    handleListFiles("{\"hash\": \"e18874dce26d5f89bdd22b1f42eec7a1\", \"thumb_exists\": false, \"bytes\": 0, \"path\": \"\", \"is_dir\": true, \"size\": \"0 bytes\", \"root\": \"dropbox\", \"contents\": [{\"revision\": 9, \"thumb_exists\": false, \"bytes\": 127748, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Getting Started.pdf\", \"is_dir\": false, \"icon\": \"page_white_acrobat\", \"mime_type\": \"application/pdf\", \"size\": \"124.8KB\"}, {\"revision\": 1, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Photos\", \"is_dir\": true, \"icon\": \"folder_photos\", \"size\": \"0.0 bytes\"}, {\"revision\": 2, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Public\", \"is_dir\": true, \"icon\": \"folder_public\", \"size\": \"0.0 bytes\"}], \"icon\": \"folder\"}");
 }
 
 void DropboxNetwork::handleAccountInfo(QByteArray response)
@@ -220,6 +222,8 @@ void DropboxNetwork::handleAccountInfo(QByteArray response)
 
     m_accountName = json["display_name"].toString();
     m_accountEmail = json["email"].toString();
+
+    //TBD Store quota
 }
 
 QString DropboxNetwork::getAccountName() {
@@ -238,8 +242,26 @@ bool DropboxNetwork::isBusy()
 
 void DropboxNetwork::handleListFiles(QByteArray response) {
     qDebug() << "\nList files response:" << response;
-  // {"hash": "e18874dce26d5f89bdd22b1f42eec7a1", "thumb_exists": false, "bytes": 0, "path": "", "is_dir": true, "size": "0 bytes", "root": "dropbox", "contents": [{"revision": 9, "thumb_exists": false, "bytes": 127748, "modified": "Fri, 17 Dec 2010 16:44:20 +0000", "path": "/Getting Started.pdf", "is_dir": false, "icon": "page_white_acrobat", "mime_type": "application/pdf", "size": "124.8KB"}, {"revision": 1, "thumb_exists": false, "bytes": 0, "modified": "Fri, 17 Dec 2010 16:44:20 +0000", "path": "/Photos", "is_dir": true, "icon": "folder_photos", "size": "0.0 bytes"}, {"revision": 2, "thumb_exists": false, "bytes": 0, "modified": "Fri, 17 Dec 2010 16:44:20 +0000", "path": "/Public", "is_dir": true, "icon": "folder_public", "size": "0.0 bytes"}], "icon": "folder"}
-// {"hash": "ec69098ac2ca2c3a4c5606043abe3b32", "revision": 2, "thumb_exists": false, "bytes": 0, "modified": "Fri, 17 Dec 2010 16:44:20 +0000", "path": "/Public", "is_dir": true, "icon": "folder_public", "root": "dropbox", "contents": [{"revision": 8, "thumb_exists": false, "bytes": 1072, "modified": "Fri, 17 Dec 2010 16:44:20 +0000", "path": "/Public/How to use the Public folder.rtf", "is_dir": false, "icon": "page_white_text", "mime_type": "application/rtf", "size": "1KB"}], "size": "0.0 bytes"}
+    QVariantMap json = m_json->parse(QString(response));
+
+    if (m_json->errorExists())
+        return reportErrorMessage("Network JSON: " + m_json->getErrorString());
+
+
+    QList<QVariant> contents = json["contents"].toList();
+
+    if (!contents.empty())
+    {
+        m_fileListModel->clear();
+        for (int i=0; i < contents.length(); ++i)
+        {
+            qDebug() << "Contents:" << contents.at(i).toMap()["path"];
+            m_fileListModel->appendRow(new QStandardItem(contents.at(i).toMap()["path"].toString()));
+        }
+    }
+    //if (json["contents"].toMap()["shared"].toString().isEmpty())
+      //  return reportErrorMessage("Dropbox Account Info: quota_shared is invalid.");
+
 
     m_busy = false;
 }

@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
     Helper helper;
     DropboxNetwork dropbox(viewer.rootContext());
     dropbox.accountInfo();
+    dropbox.listFiles("");
 
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
     viewer.rootContext()->setContextProperty("Helper", &helper);
