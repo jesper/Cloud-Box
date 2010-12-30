@@ -256,12 +256,12 @@ void DropboxNetwork::handleListFiles(QByteArray response) {
         for (int i=0; i < contents.length(); ++i)
         {
             qDebug() << "Contents:" << contents.at(i).toMap()["path"];
-            m_fileListModel->appendRow(new QStandardItem(contents.at(i).toMap()["path"].toString()));
+            QStandardItem *file = new QStandardItem(contents.at(i).toMap()["path"].toString());
+            //Have to set the data value manually instead of setIcon so that qml can use it as a source property.
+            file->setData("qrc:/icons/"+contents.at(i).toMap()["icon"].toString()+"48.gif", Qt::DecorationRole);
+            m_fileListModel->appendRow(file);
         }
     }
-    //if (json["contents"].toMap()["shared"].toString().isEmpty())
-      //  return reportErrorMessage("Dropbox Account Info: quota_shared is invalid.");
-
 
     m_busy = false;
 }

@@ -1,6 +1,7 @@
 import Qt 4.7
 
 Rectangle {
+
     color: "transparent"
 
     Rectangle {
@@ -9,25 +10,36 @@ Rectangle {
         anchors.fill: parent
     }
 
-    GridView {
+    ListView {
         id:fileListView
         anchors.fill: parent
         model:FileListModel
         delegate:  fileListDelegate
-        width: 100
-        height: 62
-        cellWidth: parent.width
-        cellHeight: parent.height/7
-
     }
 
     Component {
         id:fileListDelegate
-        Text {
-            color: "red"
-            font.family: "Helvetica"
-            id: fileName
-            text: display
+
+        Item{
+            width: fileListView.width
+            height: fileListView.height/10
+            Row {
+                spacing: 10
+
+                Image {
+                    id: icon
+                    source:decoration
+                    width: 48
+                    height: 48
+                }
+
+                Text {
+                    color: "black"
+                    font.family: "Helvetica"
+                    id: fileName
+                    text: display
+                }
+            }
         }
     }
 }
