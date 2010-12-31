@@ -12,7 +12,8 @@
 #include <QNetworkConfigurationManager>
 #include <QNetworkConfiguration>
 
-
+#include "fileitem.h"
+#include "filemodel.h"
 #include "json.h"
 
 class DropboxNetwork : public QObject
@@ -44,7 +45,7 @@ private:
     void recyleOauth();
     void reportErrorMessage(const QString error);
 
-    QStandardItemModel *m_fileListModel;
+    FileModel *m_fileListModel;
     QNetworkConfigurationManager *m_networkConfigurationManager;
     QNetworkSession *m_networkSession;
     QNetworkAccessManager *m_networkManager;

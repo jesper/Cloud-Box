@@ -34,14 +34,18 @@ symbian:TARGET.UID3 = 0xE7E0B2E9
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     json.cpp \
-    dropboxnetwork.cpp
+    dropboxnetwork.cpp \
+    filemodel.cpp \
+    fileitem.cpp
 
 
 HEADERS += \
     helper.h \
     json.h \
     dropboxnetwork.h \
-    assets.h
+    assets.h \
+    filemodel.h \
+    fileitem.h
 
 LIBS += -Wl,-rpath,./
 

@@ -23,8 +23,7 @@ DropboxNetwork::DropboxNetwork(QDeclarativeContext *declarativeContext)
     m_networkManager = new QNetworkAccessManager(this);
     m_oauthNetworkManager = new QNetworkAccessManager(this);
     m_oauthManager->setNetworkManager(m_oauthNetworkManager);
-    m_fileListModel = new QStandardItemModel(this);
-    m_fileListModel->appendRow(new QStandardItem("Foo"));
+    m_fileListModel = new FileModel(this);
 
     m_declarativeContext->setContextProperty("FileListModel", m_fileListModel);
 
@@ -178,7 +177,7 @@ void DropboxNetwork::accountInfo()
     m_oauthRequest->setTokenSecret(m_secret);
     m_oauthManager->executeRequest(m_oauthRequest);
 
- //   handleAccountInfo("{\"referral_link\": \"https://www.dropbox.com/referrals/NTE2OTk2Njk4OQ\", \"display_name\": \"Jesper Thomschutz\", \"uid\": 16996698, \"country\": \"SE\", \"quota_info\": {\"shared\": 0, \"quota\": 2147483648, \"normal\": 1304283}, \"email\": \"jesper@jespersaur.com\"}");
+    handleAccountInfo("{\"referral_link\": \"https://www.dropbox.com/referrals/NTE2OTk2Njk4OQ\", \"display_name\": \"Jesper Thomschutz\", \"uid\": 16996698, \"country\": \"SE\", \"quota_info\": {\"shared\": 0, \"quota\": 2147483648, \"normal\": 1304283}, \"email\": \"jesper@jespersaur.com\"}");
 }
 
 void DropboxNetwork::listFiles(QString path)
@@ -193,7 +192,7 @@ void DropboxNetwork::listFiles(QString path)
     m_oauthRequest->setTokenSecret(m_secret);
     m_oauthManager->executeRequest(m_oauthRequest);
 
-  //  handleListFiles("{\"hash\": \"e18874dce26d5f89bdd22b1f42eec7a1\", \"thumb_exists\": false, \"bytes\": 0, \"path\": \"\", \"is_dir\": true, \"size\": \"0 bytes\", \"root\": \"dropbox\", \"contents\": [{\"revision\": 9, \"thumb_exists\": false, \"bytes\": 127748, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Getting Started.pdf\", \"is_dir\": false, \"icon\": \"page_white_acrobat\", \"mime_type\": \"application/pdf\", \"size\": \"124.8KB\"}, {\"revision\": 1, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Photos\", \"is_dir\": true, \"icon\": \"folder_photos\", \"size\": \"0.0 bytes\"}, {\"revision\": 2, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Public\", \"is_dir\": true, \"icon\": \"folder_public\", \"size\": \"0.0 bytes\"}], \"icon\": \"folder\"}");
+    handleListFiles("{\"hash\": \"e18874dce26d5f89bdd22b1f42eec7a1\", \"thumb_exists\": false, \"bytes\": 0, \"path\": \"\", \"is_dir\": true, \"size\": \"0 bytes\", \"root\": \"dropbox\", \"contents\": [{\"revision\": 9, \"thumb_exists\": false, \"bytes\": 127748, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Getting Started.pdf\", \"is_dir\": false, \"icon\": \"page_white_acrobat\", \"mime_type\": \"application/pdf\", \"size\": \"124.8KB\"}, {\"revision\": 1, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Photos\", \"is_dir\": true, \"icon\": \"folder_photos\", \"size\": \"0.0 bytes\"}, {\"revision\": 2, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Public\", \"is_dir\": true, \"icon\": \"folder_public\", \"size\": \"0.0 bytes\"}], \"icon\": \"folder\"}");
 }
 
 void DropboxNetwork::handleAccountInfo(QByteArray response)
@@ -256,9 +255,12 @@ void DropboxNetwork::handleListFiles(QByteArray response) {
         for (int i=0; i < contents.length(); ++i)
         {
             qDebug() << "Contents:" << contents.at(i).toMap()["path"];
-            QStandardItem *file = new QStandardItem(contents.at(i).toMap()["path"].toString());
+            // remove() is used to kill the leading "/" in the path
+            FileItem *file = new FileItem();
+            file->setName(contents.at(i).toMap()["path"].toString().remove(0,1));
             //Have to set the data value manually instead of setIcon so that qml can use it as a source property.
-            file->setData("qrc:/icons/"+contents.at(i).toMap()["icon"].toString()+"48.gif", Qt::DecorationRole);
+            file->setIconPath("qrc:/icons/"+contents.at(i).toMap()["icon"].toString()+"48.gif");
+            file->setIsFolder(contents.at(i).toMap()["is_dir"].toBool());
             m_fileListModel->appendRow(file);
         }
     }

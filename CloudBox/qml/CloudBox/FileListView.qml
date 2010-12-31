@@ -25,19 +25,42 @@ Rectangle {
             height: fileListView.height/10
             Row {
                 spacing: 10
+                Rectangle {
+                    id: cellBackground
+                    x: 5
+                    color: "green"
+                    width: fileListView.width
+                    height: 60
+                    border.color: "black"
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "white" }
+                        GradientStop { position: 1.0; color: "lightsteelblue" }
+                    }
 
-                Image {
-                    id: icon
-                    source:decoration
-                    width: 48
-                    height: 48
-                }
+                    Image {
+                        id: icon
+                        x: 5
+                        source: iconPath
+                        width: 48
+                        height: 48
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
 
-                Text {
-                    color: "black"
-                    font.family: "Helvetica"
-                    id: fileName
-                    text: display
+                    Text {
+                        x: icon.x + icon.width + 10
+                        color: "black"
+                        font.family: "Helvetica"
+                        id: fileName
+                        text: name
+                        font.pixelSize: fileListView.width/20
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Text {
+                        x: fileListView.width - 48
+                        visible: true
+                        text: "!" + isFolder
+                    }
                 }
             }
         }
