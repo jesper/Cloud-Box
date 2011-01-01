@@ -26,13 +26,17 @@ Rectangle {
         id:filler
         anchors.fill: parent
         color:"transparent"
-       // visible: false
+        // visible: false
 
         Text {
             id:fillerText
             z: loginWindow.z - 1
             text: "Filler Logged In"
             font.pixelSize: 50
+            MouseArea {
+                anchors.fill: parent
+                onClicked:Dropbox.listFiles("");
+            }
         }
 
         FileListView {

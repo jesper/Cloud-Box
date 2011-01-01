@@ -2,10 +2,11 @@
 #define FILEMODEL_H
 
 #include <QAbstractListModel>
+#include <QStandardItemModel>
 
 #include "fileitem.h"
 
-class FileModel : public QAbstractListModel
+class FileModel : public QStandardItemModel
 {
     Q_OBJECT
 public:
@@ -18,7 +19,8 @@ public:
     enum FileRoles {
         NameRole = Qt::UserRole + 1,
         IsFolderRole,
-        IconPathRole
+        IconPathRole,
+        PathRole
     };
 
 private:

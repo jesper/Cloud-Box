@@ -22,7 +22,6 @@ class DropboxNetwork : public QObject
 
 public:
     DropboxNetwork(QDeclarativeContext *declarativeContext);
-    void listFiles(QString path);
     void accountInfo();
     bool isBusy();
     bool keysWork();
@@ -32,6 +31,8 @@ public slots:
     QString getAccountEmail();
     bool hasValidKeys();
     void oauthNetworkFinished(QNetworkReply *networkReply);
+    void listFiles(QString path);
+
 
 private slots:
     void handleAccountInfo(QByteArray);

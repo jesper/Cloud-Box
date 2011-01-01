@@ -25,6 +25,7 @@ Rectangle {
             height: fileListView.height/10
             Row {
                 spacing: 10
+
                 Rectangle {
                     id: cellBackground
                     x: 5
@@ -36,6 +37,11 @@ Rectangle {
                         GradientStop { position: 0.0; color: "white" }
                         GradientStop { position: 1.0; color: "lightsteelblue" }
                     }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked:Dropbox.listFiles(path);
+                        }
 
                     Image {
                         id: icon
@@ -56,10 +62,12 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                     }
 
-                    Text {
+                    Image {
                         x: fileListView.width - 48
-                        visible: true
-                        text: "!" + isFolder
+                        visible: isFolder
+                        anchors.verticalCenter: parent.verticalCenter
+                        //TBD Replace with a blue arrow or similar
+                        source: "qrc:/images/login.svg"
                     }
                 }
             }

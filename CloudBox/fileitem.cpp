@@ -37,3 +37,14 @@ void FileItem::setIconPath(QString iconPath)
 {
     m_iconPath = iconPath;
 }
+
+
+QString FileItem::getPath()
+{
+    return m_path;
+}
+
+void FileItem::setPath(QString path)
+{
+    m_path = path;
+}
