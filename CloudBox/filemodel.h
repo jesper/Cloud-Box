@@ -6,7 +6,7 @@
 
 #include "fileitem.h"
 
-class FileModel : public QStandardItemModel
+class FileModel : public QAbstractListModel
 {
     Q_OBJECT
 public:

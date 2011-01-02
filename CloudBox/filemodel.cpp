@@ -3,15 +3,13 @@
 #include "filemodel.h"
 
 FileModel::FileModel(QObject *parent) :
-    QStandardItemModel(parent)
+    QAbstractListModel(parent)
 {
     QHash<int, QByteArray> roles = roleNames();
     roles[NameRole] = "name";
     roles[IsFolderRole] = "isFolder";
     roles[IconPathRole] = "iconPath";
     roles[PathRole] = "path";
-
-
     setRoleNames(roles);
 }
 
@@ -22,19 +20,19 @@ int FileModel::rowCount(const QModelIndex &index) const
 
 void FileModel::appendRow(FileItem *fileItem)
 {
+    emit beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_fileItems.append(fileItem);
-    QStandardItemModel::appendRow(new QStandardItem());
+    emit endInsertRows();
 }
 
 void FileModel::clear()
 {
     qDeleteAll(m_fileItems.begin(), m_fileItems.end());
     m_fileItems.clear();
-    QStandardItemModel::clear();
+    emit reset();
 }
 
 QVariant FileModel::data(const QModelIndex &index, int role) const {
-    qDebug() << "\n!!!data index" << index.row();
 
     if (index.row() < 0 || index.row() > m_fileItems.count())
         return QVariant();
