@@ -35,8 +35,7 @@ symbian:TARGET.UID3 = 0xE7E0B2E9
 SOURCES += main.cpp \
     json.cpp \
     dropboxnetwork.cpp \
-    filemodel.cpp \
-    fileitem.cpp
+    filemodel.cpp
 
 
 HEADERS += \
@@ -44,8 +43,7 @@ HEADERS += \
     json.h \
     dropboxnetwork.h \
     assets.h \
-    filemodel.h \
-    fileitem.h
+    filemodel.h
 
 LIBS += -Wl,-rpath,./
 

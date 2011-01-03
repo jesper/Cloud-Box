@@ -12,7 +12,6 @@
 #include <QNetworkConfigurationManager>
 #include <QNetworkConfiguration>
 
-#include "fileitem.h"
 #include "filemodel.h"
 #include "json.h"
 

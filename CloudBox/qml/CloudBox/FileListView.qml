@@ -21,8 +21,10 @@ Rectangle {
         id:fileListDelegate
 
         Item{
+            id:fileListDelegateItem
             width: fileListView.width
             height: fileListView.height/10
+
             Row {
                 spacing: 10
 
@@ -41,7 +43,7 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         onClicked:Dropbox.listFiles(path);
-                        }
+                    }
 
                     Image {
                         id: icon
