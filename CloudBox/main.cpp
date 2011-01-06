@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
     QmlApplicationViewer viewer;
     Helper helper;
     DropboxNetwork dropbox(viewer.rootContext());
-  //  dropbox.accountInfo();
-  //  dropbox.listFiles("");
+    //  dropbox.accountInfo();
+    //  dropbox.listFiles("");
 
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
     viewer.rootContext()->setContextProperty("Helper", &helper);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     viewer.setMainQmlFile(QLatin1String("qml/CloudBox/main.qml"));
 
 
-#ifdef Q_OS_SYMBIAN
+#if defined(Q_WS_S60) || defined(Q_WS_MAEMO)
     viewer.showFullScreen();
 #else
     viewer.showExpanded();

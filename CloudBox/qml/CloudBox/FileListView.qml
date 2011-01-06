@@ -1,17 +1,29 @@
 import Qt 4.7
 
 Rectangle {
+    id:fileListView
+
+    property bool animate: false;
+    property bool commitSuicide: false;
+
+    Behavior on x {
+        enabled: animate;
+        SequentialAnimation {
+            NumberAnimation {easing.type: Easing.InOutQuad; duration: 300}
+            ScriptAction {
+                script: {
+                    if (commitSuicide)
+                        fileListView.destroy();
+
+                    animate = false
+                }
+            }
+        }
+    }
 
     color: "transparent"
 
-    Rectangle {
-        color: "blue"
-        opacity: .05
-        anchors.fill: parent
-    }
-
     ListView {
-        id:fileListView
         anchors.fill: parent
         model:FileListModel
         delegate:  fileListDelegate
@@ -42,7 +54,15 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked:Dropbox.listFiles(path);
+                        onClicked: {
+                            if (animate)
+                                return;
+
+                            fileListView.animate = true
+                            fileListView.x = width * -1
+                            fileListView.commitSuicide = true
+                            fileList.listFiles(path);
+                        }
                     }
 
                     Image {

@@ -32,7 +32,6 @@ public slots:
     void oauthNetworkFinished(QNetworkReply *networkReply);
     void listFiles(QString path);
 
-
 private slots:
     void handleAccountInfo(QByteArray);
     void handleListFiles(QByteArray);

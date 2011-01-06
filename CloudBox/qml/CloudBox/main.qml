@@ -22,29 +22,10 @@ Rectangle {
         visible: false
     }
 
-    Rectangle {
-        id:filler
+    FileList {
+        id:fileList
         anchors.fill: parent
-        color:"transparent"
         // visible: false
-
-        Text {
-            id:fillerText
-            z: loginWindow.z - 1
-            text: "Filler Logged In"
-            font.pixelSize: 50
-            MouseArea {
-                anchors.fill: parent
-                onClicked:Dropbox.listFiles("");
-            }
-        }
-
-        FileListView {
-            y: fillerText.y + fillerText.height + 10
-            height: parent.height - y
-            width: parent.width
-        }
-
     }
 
     BusyOverlay
@@ -52,5 +33,4 @@ Rectangle {
         id:busyOverlay
         visible: false
     }
-
 }

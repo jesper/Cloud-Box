@@ -124,14 +124,13 @@ void DropboxNetwork::getKeys()
 
 void DropboxNetwork::reportErrorMessage(const QString error)
 {
+    //TBD Actually display these errors to the user.
     qDebug() << "Error in " + error;
     m_busy  = false;
 }
 
 void DropboxNetwork::networkFinished(QNetworkReply *networkReply)
 {
-    //TBD alert user incase of errors below
-
     if (networkReply->error() != QNetworkReply::NoError)
         return reportErrorMessage("Network Connection: " + networkReply->errorString());
 
@@ -183,6 +182,7 @@ void DropboxNetwork::accountInfo()
 void DropboxNetwork::listFiles(QString path)
 {
     recyleOauth();
+
     QObject::connect(m_oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(handleListFiles(QByteArray)));
 
     m_oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("https://api.dropbox.com/0/metadata/dropbox/"+path));
