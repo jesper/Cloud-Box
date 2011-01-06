@@ -13,8 +13,7 @@ Rectangle {
 
     Login {
         id: loginWindow
-        //  visible: !Dropbox.hasValidKeys();
-        visible: false
+        visible: !Dropbox.hasValidKeys();
     }
 
     AccountInfo {
@@ -25,7 +24,7 @@ Rectangle {
     FileList {
         id:fileList
         anchors.fill: parent
-        // visible: false
+        visible: !loginWindow.visible
     }
 
     BusyOverlay

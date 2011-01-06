@@ -98,7 +98,12 @@ Rectangle {
 
         onStateChanged: {
             if (state == "pressed")
-                busyOverlay.visible = true
+            {
+                // TBD: actually check authentication
+                loginWindow.visible = false
+                fileList.visible = true
+                fileList.listFiles("forward", "")
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 var componentFileListView = Qt.createComponent("FileListView.qml");
 
-function createFileListView(y)
+function createFileListView(direction, y)
 {
     if(componentFileListView.status == Component.Ready){
         var dynamicObject = componentFileListView.createObject(fileList);
@@ -10,10 +10,15 @@ function createFileListView(y)
             return 0;
         }
 
-        dynamicObject.y = y
-        dynamicObject.x = fileList.width
         dynamicObject.height = fileList.height - y
         dynamicObject.width = fileList.width
+        dynamicObject.y = y
+
+        if (direction == "forward")
+            dynamicObject.x = fileList.width
+        else
+            dynamicObject.x = dynamicObject.width * -1
+
         dynamicObject.animate = true
         dynamicObject.x = 0
 

@@ -2,6 +2,8 @@ import Qt 4.7
 
 Rectangle {
     id:fileListView
+    clip: true
+    color: "transparent"
 
     property bool animate: false;
     property bool commitSuicide: false;
@@ -21,12 +23,51 @@ Rectangle {
         }
     }
 
-    color: "transparent"
-
     ListView {
         anchors.fill: parent
         model:FileListModel
         delegate:  fileListDelegate
+
+        header:
+            Rectangle {
+            id: fileHeader
+            width: parent.width
+            height: 60
+            border.color: "black"
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "white" }
+                GradientStop { position: 1.0; color: "lightsteelblue" }
+            }
+
+            Image {
+                id: backArrow
+                anchors.verticalCenter: parent.verticalCenter
+                //TBD Replace with a blue arrow or similar
+                source: "qrc:/images/login.svg"
+                rotation: 180
+            }
+
+            Text {
+                x: backArrow.width + 10
+                color: "black"
+                font.family: "Helvetica"
+                font.pixelSize: parent.width/20
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (animate)
+                        return;
+
+                    fileListView.animate = true
+                    fileListView.x = width
+                    fileListView.commitSuicide = true
+                    fileList.listFiles("back", "");
+                }
+            }
+        }
     }
 
     Component {
@@ -61,7 +102,7 @@ Rectangle {
                             fileListView.animate = true
                             fileListView.x = width * -1
                             fileListView.commitSuicide = true
-                            fileList.listFiles(path);
+                            fileList.listFiles("forward", path);
                         }
                     }
 
@@ -75,10 +116,10 @@ Rectangle {
                     }
 
                     Text {
+                        id: fileName
                         x: icon.x + icon.width + 10
                         color: "black"
                         font.family: "Helvetica"
-                        id: fileName
                         text: name
                         font.pixelSize: fileListView.width/20
                         anchors.verticalCenter: parent.verticalCenter

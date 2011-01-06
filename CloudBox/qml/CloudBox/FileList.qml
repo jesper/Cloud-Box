@@ -4,9 +4,9 @@ import "filelists.js" as FileLists
 Rectangle {
     id:fileList
 
-    function listFiles(path) {
+    function listFiles(direction, path) {
         var y = fillerText.y + fillerText.height + 10
-        var view = FileLists.createFileListView(y);
+        var view = FileLists.createFileListView(direction,y);
         Dropbox.listFiles(path);
     }
 
@@ -15,11 +15,13 @@ Rectangle {
     Text {
         id:fillerText
         z: loginWindow.z - 1
-        text: "Filler Text"
+        text: "[Status]  [More]"
         font.pixelSize: 50
         MouseArea {
             anchors.fill: parent
-            onClicked:listFiles("");
+            onClicked: {
+                fileList.listFiles("forward", "")
+            }
         }
     }
 }

@@ -185,7 +185,7 @@ void DropboxNetwork::listFiles(QString path)
 
     QObject::connect(m_oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(handleListFiles(QByteArray)));
 
-    m_oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("https://api.dropbox.com/0/metadata/dropbox/"+path));
+    m_oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("https://api.dropbox.com/0/metadata/dropbox"+path));
     m_oauthRequest->setConsumerKey(APPLICATION_KEY);
     m_oauthRequest->setConsumerSecretKey(APPLICATION_SECRET);
     m_oauthRequest->setToken(m_token);
