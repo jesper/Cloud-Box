@@ -58,13 +58,14 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (animate)
+                   /* if (animate)
                         return;
 
                     fileListView.animate = true
                     fileListView.x = width
                     fileListView.commitSuicide = true
-                    fileList.listFiles("back", "");
+                    fileList.listFiles("back", "");*/
+
                 }
             }
         }
@@ -99,10 +100,11 @@ Rectangle {
                             if (animate)
                                 return;
 
-                            fileListView.animate = true
+                          /*  fileListView.animate = true
                             fileListView.x = width * -1
                             fileListView.commitSuicide = true
-                            fileList.listFiles("forward", path);
+                            fileList.listFiles("forward", path);*/
+                            container.pathClicked(path);
                         }
                     }
 
