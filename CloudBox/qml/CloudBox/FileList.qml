@@ -4,10 +4,11 @@ import "filelists.js" as FileLists
 Rectangle {
     id:fileList
 
-    function listFiles(direction, path) {
+    function listFiles(direction, model, path) {
         var y = fillerText.y + fillerText.height + 10
-        var view = FileLists.createFileListView(direction,y);
-        Dropbox.listFiles(path);
+        console.log("Listing")
+        var view = FileLists.createFileListView(direction,model,y);
+        //Dropbox.listFiles(path);
     }
 
     color:"transparent"
@@ -20,7 +21,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                fileList.listFiles("forward", "")
+                container.signal_fileClicked("");
             }
         }
     }

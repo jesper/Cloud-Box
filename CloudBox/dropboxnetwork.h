@@ -32,6 +32,9 @@ public slots:
     void oauthNetworkFinished(QNetworkReply *networkReply);
     void listFiles(QString path);
 
+signals:
+    void fileListing(QList<QStandardItem *> files);
+
 private slots:
     void handleAccountInfo(QByteArray);
     void handleListFiles(QByteArray);
@@ -44,7 +47,6 @@ private:
     void recyleOauth();
     void reportErrorMessage(const QString error);
 
-    FileModel *m_fileListModel;
     QNetworkConfigurationManager *m_networkConfigurationManager;
     QNetworkSession *m_networkSession;
     QNetworkAccessManager *m_networkManager;

@@ -23,9 +23,6 @@ DropboxNetwork::DropboxNetwork(QDeclarativeContext *declarativeContext)
     m_networkManager = new QNetworkAccessManager(this);
     m_oauthNetworkManager = new QNetworkAccessManager(this);
     m_oauthManager->setNetworkManager(m_oauthNetworkManager);
-    m_fileListModel = new FileModel(this);
-
-    m_declarativeContext->setContextProperty("FileListModel", m_fileListModel);
 
     m_token = m_settings.value("token").toString();
     m_secret = m_settings.value("secret").toString();
@@ -190,7 +187,7 @@ void DropboxNetwork::listFiles(QString path)
     m_oauthRequest->setConsumerSecretKey(APPLICATION_SECRET);
     m_oauthRequest->setToken(m_token);
     m_oauthRequest->setTokenSecret(m_secret);
-    m_oauthManager->executeRequest(m_oauthRequest);
+  //  m_oauthManager->executeRequest(m_oauthRequest);
 
     if (path == "")
         handleListFiles("{\"hash\": \"e18874dce26d5f89bdd22b1f42eec7a1\", \"thumb_exists\": false, \"bytes\": 0, \"path\": \"\", \"is_dir\": true, \"size\": \"0 bytes\", \"root\": \"dropbox\", \"contents\": [{\"revision\": 9, \"thumb_exists\": false, \"bytes\": 127748, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Getting Started.pdf\", \"is_dir\": false, \"icon\": \"page_white_acrobat\", \"mime_type\": \"application/pdf\", \"size\": \"124.8KB\"}, {\"revision\": 1, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Photos\", \"is_dir\": true, \"icon\": \"folder_photos\", \"size\": \"0.0 bytes\"}, {\"revision\": 2, \"thumb_exists\": false, \"bytes\": 0, \"modified\": \"Fri, 17 Dec 2010 16:44:20 +0000\", \"path\": \"/Public\", \"is_dir\": true, \"icon\": \"folder_public\", \"size\": \"0.0 bytes\"}], \"icon\": \"folder\"}");
@@ -256,23 +253,23 @@ void DropboxNetwork::handleListFiles(QByteArray response) {
 
     QList<QVariant> contents = json["contents"].toList();
 
-    if (!contents.empty())
+    QList<QStandardItem *> files;
+
+    for (int i=0; i < contents.length(); ++i)
     {
-        m_fileListModel->clear();
+        QStandardItem *file = new QStandardItem();
+        file->setData(contents.at(i).toMap()["path"].toString(), PathRole);
+        //Remove the full path to the file so that we only have the filename itself.
+        file->setData(contents.at(i).toMap()["path"].toString().remove(0,path.length()+1), \
+                      NameRole);
 
-        for (int i=0; i < contents.length(); ++i)
-        {
-            QStandardItem *file = new QStandardItem();
-            file->setData(contents.at(i).toMap()["path"].toString(), PathRole);
-            //Remove the full path to the file so that we only have the filename itself.
-            file->setData(contents.at(i).toMap()["path"].toString().remove(0,path.length()+1), \
-                          NameRole);
-
-            file->setData("qrc:/icons/"+contents.at(i).toMap()["icon"].toString()+"48.gif", \
-                          IconPathRole);
-            file->setData(contents.at(i).toMap()["is_dir"].toBool(), IsFolderRole);
-            m_fileListModel->appendRow(file);
-        }
+        file->setData("qrc:/icons/"+contents.at(i).toMap()["icon"].toString()+"48.gif", \
+                      IconPathRole);
+        file->setData(contents.at(i).toMap()["is_dir"].toBool(), IsFolderRole);
+        files.append(file);
     }
+
+    emit fileListing(files);
+
     m_busy = false;
 }

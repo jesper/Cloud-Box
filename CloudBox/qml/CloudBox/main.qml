@@ -5,12 +5,21 @@ Rectangle {
     width: Helper.getScreenWidth();
     height: Helper.getScreenHeight();
 
-    signal signal_pathClicked(string path);
+    signal signal_fileClicked(string path);
 
-    function pathClicked(path)
+    function fileClicked(path)
     {
-        signal_pathClicked(path);
+        signal_fileClicked(path);
     }
+
+    function slideInFiles(model)
+    {
+        if (model == "FileListModel_A")
+            fileList.listFiles("forward", FileListModel_A, "")
+        else
+            fileList.listFiles("forward", FileListModel_B, "")
+    }
+
 
     gradient: Gradient {
         GradientStop { position: 0.0; color: "#83A7C4" }
